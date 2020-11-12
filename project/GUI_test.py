@@ -1,37 +1,51 @@
 from tkinter import * 
 from PIL import ImageTk, Image
 
-def callbackW(*args):                   # 內容被更改時執行
-    xL.set(xE.get())                    # 更改標籤內容
+# def callbackW(*args):                   # 內容被更改時執行
+#     xL.set(xE.get())                    # 更改標籤內容
 
-def callbackR(*args):                   # 內容被讀取時執行
-    print("Warning:資料被讀取!")
+# def callbackR(*args):                   # 內容被讀取時執行
+#     print("Warning:資料被讀取!")
 
-def hit():                              # 讀取資料
-    print("讀取資料:",xE.get())
-    s = xE.get()
-    return s
+# def hit():                              # 讀取資料
+#     print("讀取資料:",xE.get())
+#     s = xE.get()
+#     print(s)
+#     return s
 
+# def addone(num1): 
+#     num1=int(num1)+1 
+#     print("add", num1)
+# def subtractone(num1): 
+#     num1=int(num1)-1 
+#     print("sub", num1)
+# def close_window (root): 
+#     root.destroy()
 
-root = Tk()
-root.title("input")
+# def combine(): 
+#     addone(1) 
+#     subtractone(1) 
+#     root.destroy()
 
-xE = StringVar()                        # Entry的變數內容
+# root = Tk()
+# root.title("input")
 
-entry = Entry(root,textvariable=xE)     # 設定Label內容是變數x
-entry.pack(pady=5,padx=10)
-xE.trace("w",callbackW)                 # 若是有更改執行callbackW
-xE.trace("r",callbackR)                 # 若是有被讀取執行callbackR
+# xE = StringVar()                        # Entry的變數內容
 
-xL = StringVar()                        # Label的變數內容
-label = Label(root,textvariable=xL)
-xL.set("同步顯示")
-label.pack(pady=5,padx=10)
+# entry = Entry(root,textvariable=xE)     # 設定Label內容是變數x
+# entry.pack(pady=5,padx=10)
+# xE.trace("w",callbackW)                 # 若是有更改執行callbackW
+# xE.trace("r",callbackR)                 # 若是有被讀取執行callbackR
+
+# xL = StringVar()                        # Label的變數內容
+# label = Label(root,textvariable=xL)
+# xL.set("同步顯示")
+# label.pack(pady=5,padx=10)
     
-btn = Button(root,text="讀取",command=hit )    # 建立讀取按鈕
-btn.pack(pady=5)
+# btn = Button(root,text="讀取",command=lambda:(hit(),callbackR(),close_window(root) ))    # 建立讀取按鈕
+# btn.pack(pady=5)
 
-root.mainloop()
+# root.mainloop()
 
 def showtheresult(f, s):
     root = Tk()
@@ -56,6 +70,7 @@ def showtheresult(f, s):
     subs.pack()
     return root.mainloop()
 
+showtheresult('gwar gura','1220000' )
 
 #showtheresult('gawr gura', '1220000')
 
