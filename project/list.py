@@ -7,7 +7,7 @@ def itemAdded():                        # 增加項目處理程式
     entry.delete(0,END)                 # 刪除Entry的內容
 
 def itemsearch():                      
-    
+    return 0 
 root = Tk()
 root.title("ch12_19")                   # 視窗標題
 
