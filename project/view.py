@@ -6,7 +6,7 @@ listA = []
 
 # 單個搜尋
 class singleFrame(Frame):  # 繼承Frame類
-    
+
     def __init__(self, master=None):
         Frame.__init__(self, master)
         self.root = master  # 定義內部變數root
@@ -20,9 +20,18 @@ class singleFrame(Frame):  # 繼承Frame類
 
     def firstresultadd(self):
         for i in listA:
-            Listbox.insert(END,i)
+            #print(listA)
+            gura.insert(END,i)
+            #print('B')
+
+    def choose(self):
+        global f
+        indexs = gura.curselection()
+        f = gura.get(indexs)
+        return f
 
     def createPage(self):
+        global gura
         # 第一階段搜尋
         Label(self).grid(row=0, stick=W, pady=10)
         Label(self, text='頻道名稱：').grid(row=1, stick=W, pady=10)
@@ -32,21 +41,23 @@ class singleFrame(Frame):  # 繼承Frame類
             confirmthischannel(),self.firstresultadd())).grid(row=2, column=1, pady=10)
         # 第二階段選擇
         Label(self, text='選擇頻道：').grid(row=4, pady=10)
-        Listbox(self).grid(row=4, column=1, columnspan=3, padx=5)
-        Button(self, text='確認', command=lambda: (self.close_window(),).grid(row=6, column=1, pady=10)) #下一句怪怪的
-                                                 #self.showtheresult(f, '1220000'))).grid(row=6, column=1, pady=10)
+        gura=Listbox(self,selectmode=SINGLE)
+        
+        gura.grid(row=4, column=1, columnspan=3, padx=5)
+        Button(self, text='確認', command=lambda: (self.close_window(), self.choose(),
+                                                 self.showtheresult(f, '1220000'))).grid(row=6, column=1, pady=10)
 
     def close_window(self): 
         self.root.destroy()
 
-    def showtheresult(filename, subscribes): #怪怪的
-        root = Tk()
+    def showtheresult(self,filename, subscribes): #怪怪的
+
         root.config(bg="white")
         banner_img = Image.open(filename + "_banner.gif")
-        banner_imgSize = banner_img.size  # 大小/尺寸
-        w = banner_img.width       # 圖片寬
-        h = banner_img.height      # 圖片高
-        f = banner_img.format      # 圖片格式
+        # banner_imgSize = banner_img.size  # 大小/尺寸
+        # w = banner_img.width       # 圖片寬
+        # h = banner_img.height      # 圖片高
+        # f = banner_img.format      # 圖片格式
         banner_photo = ImageTk.PhotoImage(banner_img)
 
         # print(banner_imgSize)
