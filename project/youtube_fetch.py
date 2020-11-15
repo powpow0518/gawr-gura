@@ -8,15 +8,20 @@
 import requests
 import re
 import os
+import Globals
+
+global api_key
+api_key = 'AIzaSyAqOjobVoGqUgPfvOLoRrOyrBXFwBUidkw'
+Globals.initialize()
 
 
 def get_channel_ID(key_word):
     api = 'https://youtube.googleapis.com/youtube/v3/search'
     part = 'snippet'
-    maxResults = '25'  #設定搜尋結果數量
+    maxResults = '5'  #設定搜尋結果數量
     q = key_word
     search_type = 'channel'  #設定搜尋的東西是頻道
-    key = 'AIzaSyAqOjobVoGqUgPfvOLoRrOyrBXFwBUidkw'
+    key = api_key
     
     url = api + "?part=" + part + "&maxResults=" + maxResults + "&q=" + key_word + "&type=" + search_type + "&key=" + key
     
@@ -24,19 +29,16 @@ def get_channel_ID(key_word):
     ID = requests.get(url)
     ID_json = ID.json()
     
-    global ID_1
-    ID_1 = ID_json['items'][0]['snippet']['channelId'] #頻道ID
-    name_1 = ID_json['items'][0]['snippet']['title']   #頻道名稱
+    
+    # ID_1 = ID_json['items'][0]['snippet']['channelId'] #頻道ID
+    # name_1 = ID_json['items'][0]['snippet']['title']   #頻道名稱
     
     #印出回傳的所有頻道名
-    # for i in range(len(ID_json['items'])):
+    for i in range(len(ID_json['items'])):
+        # Globals.id_list.append(ID_json['items'][i]['snippet']['channelId'])
+        # Globals.name_list.append(ID_json['items'][i]['snippet']['title'])
+        Globals.channels_dict[ID_json['items'][i]['snippet']['title']] = ID_json['items'][i]['snippet']['channelId']
 
-    #     print(ID_json['items'][0]['snippet']['channelId'])
-    #     print(ID_json['items'][0]['snippet']['title'])
-        
-    # 回傳第一筆資料
-    return ID_1
-    
 
 
 
@@ -48,7 +50,7 @@ def get_channel_info(channel_id):
     part= "snippet,contentDetails,statistics,brandingSettings"
     id_ = channel_id
     ### remember to change this key
-    key = "AIzaSyAqOjobVoGqUgPfvOLoRrOyrBXFwBUidkw"
+    key = api_key
     
     
     url = api + "?part=" + part + "&id=" + id_ + "&key=" + key
@@ -94,13 +96,13 @@ def get_profile_pic(info_json):
     
     #開始抓圖片  
     url = profile_pic[0]
-    
+
     try:
-        
+
         picture = requests.get(url, headers=headers) # 下載圖片
         picture.raise_for_status()                  # 驗證圖片是否下載成功
         # 先開啟檔案, 再儲存圖片
-        pictFile = open(os.path.join(folder, ID_1 + '_profile.jpg'), 'wb')
+        pictFile = open(os.path.join(folder, Globals.id + '_profile.jpg'), 'wb')
         
         for diskStorage in picture.iter_content(10240):
             pictFile.write(diskStorage)
@@ -156,6 +158,8 @@ def getHtmlFile(channel_ID):
         print("網頁下載失敗, Error = ", err)
         
     htmlFile = html.text
+    global banner_id
+    banner_id = channel_ID
     
     return htmlFile
     
@@ -195,7 +199,7 @@ def getBanner(htmlFile):
         picture = requests.get(url, headers=headers) # 下載圖片
         picture.raise_for_status()                  # 驗證圖片是否下載成功
          # 先開啟檔案, 再儲存圖片
-        pictFile = open(os.path.join(folder, ID_1 + '_banner.jpg'), 'wb')
+        pictFile = open(os.path.join(folder, banner_id + '_banner.jpg'), 'wb')
         
         for diskStorage in picture.iter_content(10240):
             pictFile.write(diskStorage)
@@ -217,7 +221,7 @@ def getBanner(htmlFile):
 
 
 
-
+'''
 # 實際使用看看
 # 先輸入關鍵字取得第一個搜尋結果的頻道id
 # 先得到 channel資訊, 得到的是json格式的檔案,給值 info
@@ -248,3 +252,5 @@ htmlFile = getHtmlFile(channel_id)
 banner = getBanner(htmlFile)
 
 print("banner",banner)
+
+'''
