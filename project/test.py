@@ -19,8 +19,7 @@ def hit():                              # 讀取資料
 #     print("sub", num1)
 def close_window (root): 
     root.destroy()
-def combine(): 
-    callbackR()
+def combine():
     hit()
     root.destroy()
 
