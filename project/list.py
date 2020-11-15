@@ -1,4 +1,5 @@
 from tkinter import *
+
 def itemAdded():                        # 增加項目處理程式
     varAdd = entry.get()                # 讀取Entry的項目
     if (len(varAdd.strip()) == 0):      # 沒有增加不處理
