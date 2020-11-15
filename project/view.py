@@ -16,7 +16,11 @@ class singleFrame(Frame):  # 繼承Frame類
     def confirmthischannel(self):  # 第一階段搜尋
         firstsearchresult = self.firstsearch.get()
         listA.append(firstsearchresult)
-        return listA  # 回傳可以改（測試用）
+        return print(listA)  # 回傳可以改（測試用）
+
+    def firstresultadd(self):
+        for i in listA:
+            Listbox.insert(END,i)
 
     def createPage(self):
         # 第一階段搜尋
@@ -25,12 +29,10 @@ class singleFrame(Frame):  # 繼承Frame類
         Entry(self, textvariable=self.firstsearch).grid(
             row=1, column=1, stick=E)
         Button(self, text='Search', command=lambda: (self.
-            confirmthischannel())).grid(row=2, column=1, pady=10)
+            confirmthischannel(),self.firstresultadd())).grid(row=2, column=1, pady=10)
         # 第二階段選擇
         Label(self, text='選擇頻道：').grid(row=4, pady=10)
         Listbox(self).grid(row=4, column=1, columnspan=3, padx=5)
-        for i in listA:
-            Listbox.insert(END,i)
         Button(self, text='確認', command=lambda: (self.close_window(),).grid(row=6, column=1, pady=10)) #下一句怪怪的
                                                  #self.showtheresult(f, '1220000'))).grid(row=6, column=1, pady=10)
 
