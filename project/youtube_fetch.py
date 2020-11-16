@@ -11,7 +11,7 @@ import os
 import Globals
 
 global api_key
-api_key = 'AIzaSyAqOjobVoGqUgPfvOLoRrOyrBXFwBUidkw'
+api_key = 'xxxx'
 Globals.initialize()
 
 

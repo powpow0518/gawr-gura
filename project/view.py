@@ -18,6 +18,7 @@ class singleFrame(Frame):  # 繼承Frame類
         self.createPage()
 
     def confirmthischannel(self):  # 第一階段搜尋
+        Globals.channels_dict = {}
         firstsearchresult = self.firstsearch.get()
         yt.get_channel_ID(firstsearchresult)  # 輸入關鍵字後搜尋, 結果們會存到Globals.channels_dict
         
