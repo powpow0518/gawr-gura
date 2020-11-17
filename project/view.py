@@ -30,7 +30,7 @@ class singleFrame(Frame):  # 繼承Frame類
 
         Globals.listbox.grid(row=4, column=1, columnspan=3, padx=5)
         Button(self, text='確認', command=lambda: (self.choose(), self.close_window(),
-                                                 showtheresult(Globals.selected_name, Globals.selected_subs, Globals.selected_desc))).grid(row=6, column=1, pady=10)
+                                                 showtheresult(Globals.selected_id, Globals.selected_subs, Globals.selected_desc))).grid(row=6, column=1, pady=10)
 
     def confirmthischannel(self):  # 第一階段搜尋
         Globals.channels_dict = {}
@@ -43,7 +43,7 @@ class singleFrame(Frame):  # 繼承Frame類
     def firstresultadd(self):
         Globals.listbox.delete(0, END)  # 每按一次搜尋清空listbox的資料
         channel_name_results = [
-            key for key, value in Globals.channels_dict.items()]  # 把字典的key取出來,這裡是頻道名稱
+            value for key, value in Globals.channels_dict.items()]  # 把字典的value取出來,這裡是頻道名稱
         for name in channel_name_results:  # 取出頻道名稱列表的各個名字
             Globals.listbox.insert(END, name)  # listbox放入資料(頻道名字)
 
@@ -51,12 +51,13 @@ class singleFrame(Frame):  # 繼承Frame類
 
     def choose(self):  # 點選後需要做的事情, 取得所有資料
         indexs = Globals.listbox.curselection()  # listbox點選item後,得到該item的index
-        # listbox.get(indexs) 會得到listbox在特定index 顯示的名稱
+        # listbox.get(indexs) 會得到listbox在特定index 顯示的名稱(這裡是頻道名稱)
+        channel_dict_name_id = {value:key for key, value in Globals.channels_dict.items()}
         name = Globals.listbox.get(indexs)
-        Globals.id = Globals.channels_dict[name]
+        Globals.id = channel_dict_name_id[name]
         channel_info = yt.get_channel_info(Globals.id)
 
-        Globals.selected_name = yt.get_name(channel_info)  # 選取頻道的名字
+        Globals.selected_id = yt.get_id(channel_info)  # 選取頻道的名字
         Globals.selected_subs = yt.get_subscriberCount(
             channel_info)  # 選取頻道的訂閱數
         Globals.selected_desc = yt.get_description(channel_info)
@@ -110,9 +111,11 @@ class pluralFrame(Frame):  # 繼承Frame類
     def firstresultadd(self):
         Globals.gurabox1.delete(0, END)  # 每按一次搜尋清空listbox的資料
         channel_name_results = [
-            key for key, value in Globals.channels_dict.items()]  # 把字典的key取出來,這裡是頻道名稱
+            value for key, value in Globals.channels_dict.items()]  # 把字典的key取出來,這裡是頻道名稱
         for name in channel_name_results:  # 取出頻道名稱列表的各個名字
             Globals.gurabox1.insert(END, name)  # listbox放入資料(頻道名字)
+
+
 
     def close_window(self):
         self.root.destroy()

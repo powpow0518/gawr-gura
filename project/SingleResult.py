@@ -3,13 +3,13 @@ from PIL import ImageTk, Image
 import Globals
 from tkinter.scrolledtext import ScrolledText
 
-def showtheresult(channel_name, subscribes, desc):  # 怪怪的
+def showtheresult(selected_id, subscribes, desc):  # 怪怪的
 
     root = Tk()
     root.config(bg="white")
     photo_forlder = "channels/"
 
-    photo_name = Globals.channels_dict[channel_name]
+    photo_name = selected_id
     banner_img = Image.open(photo_forlder + photo_name + "_banner.jpg")
     # banner_imgSize = banner_img.size  # 大小/尺寸
     # w = banner_img.width       # 圖片寬
@@ -36,7 +36,7 @@ def showtheresult(channel_name, subscribes, desc):  # 怪怪的
     Label_profile.grid(row=1, column=0, rowspan=4,
                        padx=20, pady=20, sticky="WS")
 
-    Label_text1 = Label(root, text="頻道名稱：" + channel_name)
+    Label_text1 = Label(root, text="頻道名稱：" + Globals.channels_dict[selected_id])
     Label_text1.grid(row=1, column=1)
 
     Label_text2 = Label(root, text="訂閱數：" + subscribes)

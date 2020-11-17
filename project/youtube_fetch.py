@@ -11,14 +11,14 @@ import os
 import Globals
 
 global api_key
-api_key = 'xxxx'
+api_key = 'AIzaSyAhHpBlU_bnaNBU8eMlKRiY4ensxAQxoW8'
 Globals.initialize()
 
 
 def get_channel_ID(key_word):
     api = 'https://youtube.googleapis.com/youtube/v3/search'
     part = 'snippet'
-    maxResults = '8'  #設定搜尋結果數量
+    maxResults = '10'  #設定搜尋結果數量
     q = key_word
     search_type = 'channel'  #設定搜尋的東西是頻道
     key = api_key
@@ -29,18 +29,17 @@ def get_channel_ID(key_word):
     
     ID = requests.get(url)
     ID_json = ID.json()
+
     
     
     # ID_1 = ID_json['items'][0]['snippet']['channelId'] #頻道ID
     # name_1 = ID_json['items'][0]['snippet']['title']   #頻道名稱
     
-    #印出回傳的所有頻道名
+    # 頻道id:name 存成dict
     for i in range(len(ID_json['items'])):
         # Globals.id_list.append(ID_json['items'][i]['snippet']['channelId'])
         # Globals.name_list.append(ID_json['items'][i]['snippet']['title'])
-        Globals.channels_dict[ID_json['items'][i]['snippet']['title']] = ID_json['items'][i]['snippet']['channelId']
-
-
+        Globals.channels_dict[ID_json['items'][i]['snippet']['channelId']] = ID_json['items'][i]['snippet']['title']
 
 
 # 得到youtube api 回傳的 json 格式檔案
@@ -54,14 +53,20 @@ def get_channel_info(channel_id):
     key = api_key
     
     
+    
     url = api + "?part=" + part + "&id=" + id_ + "&key=" + key
     info = requests.get(url)
     info_json = info.json()
+
     
     return info_json
 
 # 參數: youtube api 回傳的 json 檔案
-# 取得頻道名稱
+
+def get_id(info_json):
+    channel_id = info_json['items'][0]['id'] #頻道ID
+    return channel_id
+
 def get_name(info_json):
     channel_name = info_json['items'][0]['snippet']['title'] #頻道名稱
     return channel_name
