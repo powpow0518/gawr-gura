@@ -76,7 +76,6 @@ class singleFrame(Frame):  # 繼承Frame類
 class pluralFrame(Frame):  # 繼承Frame類
     def __init__(self, master=None):
         Frame.__init__(self, master)
-        Globals.initialize()
         self.root = master  # 定義內部變數root
         self.firstsearch = StringVar()
         self.createPage()
