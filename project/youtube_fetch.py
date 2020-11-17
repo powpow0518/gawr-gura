@@ -18,7 +18,7 @@ Globals.initialize()
 def get_channel_ID(key_word):
     api = 'https://youtube.googleapis.com/youtube/v3/search'
     part = 'snippet'
-    maxResults = '10'  #設定搜尋結果數量
+    maxResults = '8'  #設定搜尋結果數量
     q = key_word
     search_type = 'channel'  #設定搜尋的東西是頻道
     key = api_key

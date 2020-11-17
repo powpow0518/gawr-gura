@@ -100,7 +100,7 @@ class pluralFrame(Frame):  # 繼承Frame類
         Globals.gurabox2 = Listbox(self, selectmode=SINGLE)  # 右框格
         Globals.gurabox2.grid(row=4, column=3, columnspan=2, padx=3)
         Label(self, text='5').grid(row=4, column=2, pady=10)
-        Button(self, text='確認', command=lambda: (self.close_window())).grid(row=5, column=3, pady=10, columnspan=2)
+        Button(self, text='確認', command=lambda: (self.close_window(),)).grid(row=5, column=3, pady=10, columnspan=2)
 
     def confirmthischannel(self):  # 第一階段搜尋
         Globals.channels_dict = {}
