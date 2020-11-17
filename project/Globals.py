@@ -12,7 +12,6 @@ def initialize():
     global channels_dict
     channels_dict = {}
 
-
     global selected_name
     selected_name = None
     global selected_subs
@@ -24,3 +23,9 @@ def initialize():
     gurabox1 = None
     global gurabox2
     gurabox2 = None
+    global guralabel
+    guralabel = None
+
+    # 容納數量
+    global gurabox2size
+    gurabox2size = 8
