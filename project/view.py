@@ -4,7 +4,6 @@ from PIL import ImageTk, Image
 from SingleResult import *
 import Globals
 import youtube_fetch as yt
-listA = []
 
 
 # 單個搜尋
@@ -17,69 +16,104 @@ class singleFrame(Frame):  # 繼承Frame類
         self.firstsearch = StringVar()
         self.createPage()
 
-    def confirmthischannel(self):  # 第一階段搜尋
-        Globals.channels_dict = {}
-        firstsearchresult = self.firstsearch.get()
-        yt.get_channel_ID(firstsearchresult)  # 輸入關鍵字後搜尋, 結果們會存到Globals.channels_dict
-        
-        
-        # return print(listA)  # 回傳可以改（測試用）
-
-    def firstresultadd(self):
-        Globals.listbox.delete(0, END) #每按一次搜尋清空listbox的資料
-        channel_name_results = [key for key,value in Globals.channels_dict.items()] # 把字典的key取出來,這裡是頻道名稱
-        for name in channel_name_results: #取出頻道名稱列表的各個名字
-            Globals.listbox.insert(END, name) # listbox放入資料(頻道名字)
-
-        # Globals.channels_dict = {}  # 把儲存搜尋結果的dict 清空
-        
-    def choose(self):   #點選後需要做的事情, 取得所有資料
-        indexs = Globals.listbox.curselection() # listbox點選item後,得到該item的index
-        name = Globals.listbox.get(indexs)  # listbox.get(indexs) 會得到listbox在特定index 顯示的名稱
-        Globals.id = Globals.channels_dict[name] 
-        channel_info = yt.get_channel_info(Globals.id)
-
-        global selected_name
-        global selected_subs
-        global selected_desc
-        selected_name = yt.get_name(channel_info)  # 選取頻道的名字
-        selected_subs = yt.get_subscriberCount(channel_info) #選取頻道的訂閱數
-        selected_desc = yt.get_description(channel_info)
-        yt.get_profile_pic(channel_info)
-        htmlFile = yt.getHtmlFile(Globals.id)
-        yt.getBanner(htmlFile)
-
-
-        return Globals.id
-
     def createPage(self):
+        Label(self, text='單個搜尋').grid(row=0, column=1, pady=10)
         # 第一階段搜尋
-        Label(self).grid(row=0, stick=W, pady=10)
         Label(self, text='頻道名稱：').grid(row=1, stick=W, pady=10)
         Entry(self, textvariable=self.firstsearch).grid(
             row=1, column=1, stick=E)
-        Button(self, text='Search', command=lambda: (self.
-                                                     confirmthischannel(), self.firstresultadd())).grid(row=2, column=1, pady=10)
+        Button(self, text='搜尋', command=lambda: (self.
+                                                 confirmthischannel(), self.firstresultadd())).grid(row=2, column=1, pady=10)
         # 第二階段選擇
         Label(self, text='選擇頻道：').grid(row=4, pady=10)
         Globals.listbox = Listbox(self, selectmode=SINGLE)
 
         Globals.listbox.grid(row=4, column=1, columnspan=3, padx=5)
         Button(self, text='確認', command=lambda: (self.choose(), self.close_window(),
-                                                 showtheresult(selected_name, selected_subs, selected_desc))).grid(row=6, column=1, pady=10)
+                                                 showtheresult(Globals.selected_name, Globals.selected_subs, Globals.selected_desc))).grid(row=6, column=1, pady=10)
+
+    def confirmthischannel(self):  # 第一階段搜尋
+        Globals.channels_dict = {}
+        firstsearchresult = self.firstsearch.get()
+        # 輸入關鍵字後搜尋, 結果們會存到Globals.channels_dict
+        yt.get_channel_ID(firstsearchresult)
+
+        # return print(listA)  # 回傳可以改（測試用）
+
+    def firstresultadd(self):
+        Globals.listbox.delete(0, END)  # 每按一次搜尋清空listbox的資料
+        channel_name_results = [
+            key for key, value in Globals.channels_dict.items()]  # 把字典的key取出來,這裡是頻道名稱
+        for name in channel_name_results:  # 取出頻道名稱列表的各個名字
+            Globals.listbox.insert(END, name)  # listbox放入資料(頻道名字)
+
+        # Globals.channels_dict = {}  # 把儲存搜尋結果的dict 清空
+
+    def choose(self):  # 點選後需要做的事情, 取得所有資料
+        indexs = Globals.listbox.curselection()  # listbox點選item後,得到該item的index
+        # listbox.get(indexs) 會得到listbox在特定index 顯示的名稱
+        name = Globals.listbox.get(indexs)
+        Globals.id = Globals.channels_dict[name]
+        channel_info = yt.get_channel_info(Globals.id)
+
+        Globals.selected_name = yt.get_name(channel_info)  # 選取頻道的名字
+        Globals.selected_subs = yt.get_subscriberCount(
+            channel_info)  # 選取頻道的訂閱數
+        Globals.selected_desc = yt.get_description(channel_info)
+        yt.get_profile_pic(channel_info)
+        htmlFile = yt.getHtmlFile(Globals.id)
+        yt.getBanner(htmlFile)
+
+        return Globals.id
 
     def close_window(self):
         self.root.destroy()
 
 # 多個搜尋（先完成單個）
+# 頻道名稱，訂閱數，總觀看量，上傳影片數量，會員數量（？），donate總金額（？）
 
 
 class pluralFrame(Frame):  # 繼承Frame類
     def __init__(self, master=None):
         Frame.__init__(self, master)
+        Globals.initialize()
         self.root = master  # 定義內部變數root
-        self.search = StringVar()
+        self.firstsearch = StringVar()
         self.createPage()
 
     def createPage(self):
-        Label(self, text='查詢介面').pack()
+        Label(self, text='查詢介面').grid(row=0, column=2, pady=10)
+        # 第一階段搜尋
+        Label(self, text='頻道名稱：').grid(row=1, column=1, stick=E, pady=10)
+        Entry(self, textvariable=self.firstsearch).grid(
+            row=1, column=2, stick=E)
+        Button(self, text='搜尋', command=lambda: (
+            self.confirmthischannel(), self.firstresultadd())).grid(row=2, column=2, pady=10)
+        # 第二階段
+        Label(self, text='搜尋結果').grid(row=3, column=0, pady=10, columnspan=2)
+        Label(self, text='顯示列表').grid(row=3, column=3, pady=10, columnspan=2)
+        Button(self, text='加入頻道', ).grid(row=4, column=2, pady=10, stick=N)
+        Button(self, text='移除頻道', ).grid(row=4, column=2, pady=10, stick=S)
+        Globals.gurabox1 = Listbox(self, selectmode=SINGLE)  # 左框格
+        Globals.gurabox1.grid(row=4, column=0, columnspan=2, padx=3)
+
+        Globals.gurabox2 = Listbox(self, selectmode=SINGLE)  # 右框格
+        Globals.gurabox2.grid(row=4, column=3, columnspan=2, padx=3)
+        Label(self, text='5').grid(row=4, column=2, pady=10)
+        Button(self, text='確認', command=lambda: (self.close_window())).grid(row=5, column=3, pady=10, columnspan=2)
+
+    def confirmthischannel(self):  # 第一階段搜尋
+        Globals.channels_dict = {}
+        firstsearchresult = self.firstsearch.get()
+        # 輸入關鍵字後搜尋, 結果們會存到Globals.channels_dict
+        yt.get_channel_ID(firstsearchresult)
+
+    def firstresultadd(self):
+        Globals.gurabox1.delete(0, END)  # 每按一次搜尋清空listbox的資料
+        channel_name_results = [
+            key for key, value in Globals.channels_dict.items()]  # 把字典的key取出來,這裡是頻道名稱
+        for name in channel_name_results:  # 取出頻道名稱列表的各個名字
+            Globals.gurabox1.insert(END, name)  # listbox放入資料(頻道名字)
+
+    def close_window(self):
+        self.root.destroy()
