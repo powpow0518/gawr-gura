@@ -53,8 +53,6 @@ class singleFrame(Frame):  # 繼承Frame類
     def choose(self):  # 點選後需要做的事情, 取得所有資料
         indexs = Globals.listbox.curselection()  # listbox點選item後,得到該item的index
         # listbox.get(indexs) 會得到listbox在特定index 顯示的名稱(這裡是頻道名稱)
-        # if (len(indexs) == 0):  # 判斷是否有選擇了
-        #     return
         channel_dict_name_id = {value: key for key,
                                 value in Globals.channels_dict.items()}
         name = Globals.listbox.get(indexs)

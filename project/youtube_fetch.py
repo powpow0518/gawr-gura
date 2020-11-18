@@ -11,7 +11,7 @@ import os
 import Globals
 
 global api_key
-api_key = 'AIzaSyAhHpBlU_bnaNBU8eMlKRiY4ensxAQxoW8'
+api_key = 'AIzaSyBjFZCicC1B_BlRzD5xjc4wP84w_9leHqQ'
 Globals.initialize()
 
 
@@ -25,7 +25,7 @@ def get_channel_ID(key_word):
 
     url = api + "?part=" + part + "&maxResults=" + maxResults + \
         "&q=" + key_word + "&type=" + search_type + "&key=" + key
-
+    # print(url)
     ID = requests.get(url)
     ID_json = ID.json()
 
@@ -53,7 +53,7 @@ def get_channel_info(channel_id):
     url = api + "?part=" + part + "&id=" + id_ + "&key=" + key
     info = requests.get(url)
     info_json = info.json()
-
+    # print(url)
     return info_json
 
 # 參數: youtube api 回傳的 json 檔案

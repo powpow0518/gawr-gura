@@ -4,7 +4,7 @@ import Globals
 from tkinter.scrolledtext import ScrolledText
 
 
-def showtheresult(selected_id, subscribes, desc):  # 怪怪的
+def showtheresult(selected_id, subscribes, desc):
 
     root = Tk()
     root.config(bg="white")
