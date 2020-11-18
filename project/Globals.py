@@ -28,4 +28,6 @@ def initialize():
 
     # 容納數量
     global gurabox2size
-    gurabox2size = 8
+    gurabox2size = 8 
+
+

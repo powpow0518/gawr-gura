@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter.messagebox import *
 from PIL import ImageTk, Image
 from SingleResult import *
+from PluralResult import *
 import Globals
 import youtube_fetch as yt
 
@@ -110,7 +111,7 @@ class pluralFrame(Frame):  # 繼承Frame類
         Globals.guralabel.config(
             text=str(Globals.gurabox2size-Globals.gurabox2.size()))
 
-        Button(self, text='確認', command=lambda: (self.close_window(),)).grid(
+        Button(self, text='確認', command=lambda: (self.close_window(),pluralresult(int(Globals.gurabox2.size())))).grid(
             row=5, column=3, pady=10, columnspan=2)
 
     def confirmthischannel(self):  # 第一階段搜尋
