@@ -11,7 +11,7 @@ import os
 import Globals
 
 global api_key
-api_key = 'AIzaSyAhHpBlU_bnaNBU8eMlKRiY4ensxAQxoW8'
+api_key = 'xxx'
 Globals.initialize()
 
 
@@ -24,9 +24,7 @@ def get_channel_ID(key_word):
     key = api_key
     
     url = api + "?part=" + part + "&maxResults=" + maxResults + "&q=" + key_word + "&type=" + search_type + "&key=" + key
-    
-
-    
+        
     ID = requests.get(url)
     ID_json = ID.json()
 
@@ -101,6 +99,7 @@ def get_profile_pic(info_json):
                 Safari/537.36', }
     
     #開始抓圖片  
+    
     url = profile_pic[0]
 
     try:
@@ -155,6 +154,7 @@ def getHtmlFile(channel_ID):
                 Safari/537.36', }
     
     url = 'https://www.youtube.com/channel/' + channel_ID
+
     
     try:
         
@@ -166,7 +166,6 @@ def getHtmlFile(channel_ID):
     htmlFile = html.text
     global banner_id
     banner_id = channel_ID
-    
     return htmlFile
     
 
@@ -177,7 +176,6 @@ def getBanner(htmlFile):
     # 使用正規表達式 
     regex = re.compile(YOUTUBE_HEADER_IMAGE_START_URL + "(.*?)" + YOUTUBE_HEADER_IMAGE_END_URL)
     urllist= regex.findall(htmlFile)
-    
     #urlist回傳的是一個含有16個value的串列
     # index 0 => 我不要的東西
     # 1 - 15的照片大小分別為
@@ -186,9 +184,10 @@ def getBanner(htmlFile):
     # 7: 854 x 480    8: 1280 x 720    9: 1920 x 1080
     # 10:2120 x 1192  11:320 x 52     12: 640 x 105
     # 13:960 x 158    14:1280 x 211   15: 1440 x 238
-    
-    url = "https://" +YOUTUBE_HEADER_IMAGE_START_URL + urllist[12] + YOUTUBE_HEADER_IMAGE_END_URL
-    
+    try:
+        url = "https://" +YOUTUBE_HEADER_IMAGE_START_URL + urllist[12] + YOUTUBE_HEADER_IMAGE_END_URL
+    except:
+        print("this channel no banners")
     #下載圖片
     folder = 'channels'
     if os.path.exists(folder) == False:

@@ -44,17 +44,21 @@ class singleFrame(Frame):  # 繼承Frame類
         Globals.listbox.delete(0, END)  # 每按一次搜尋清空listbox的資料
         channel_name_results = [
             value for key, value in Globals.channels_dict.items()]  # 把字典的value取出來,這裡是頻道名稱
-        for name in channel_name_results:  # 取出頻道名稱列表的各個名字
-            Globals.listbox.insert(END, name)  # listbox放入資料(頻道名字)
+        channel_key_results = [
+            key for key, value in Globals.channels_dict.items()]  # 把字典的key取出來,這裡是頻道id
+       
+        # 為了把各個index 有其對應的頻道ID, 生成searched_dict[i] 作為區別listbox每個item的用法
+        for i in range(len(channel_name_results)):
+            Globals.listbox.insert(END, channel_name_results[i])
+            Globals.searched_dict[i] = channel_key_results[i]
 
-        # Globals.channels_dict = {}  # 把儲存搜尋結果的dict 清空
 
     def choose(self):  # 點選後需要做的事情, 取得所有資料
-        indexs = Globals.listbox.curselection()  # listbox點選item後,得到該item的index
-        # listbox.get(indexs) 會得到listbox在特定index 顯示的名稱(這裡是頻道名稱)
-        channel_dict_name_id = {value:key for key, value in Globals.channels_dict.items()}
-        name = Globals.listbox.get(indexs)
-        Globals.id = channel_dict_name_id[name]
+        indexs = Globals.listbox.curselection()  # listbox點選item後,得到該item的index, 回傳世tuple
+        name = Globals.listbox.get(indexs) # listbox.get(indexs) 會得到listbox在特定index 顯示的名稱(這裡是頻道名稱)
+        selected_index = indexs[0] # 得到index選取的index值
+        
+        Globals.id = Globals.searched_dict[selected_index] # 去search_dict 找出 index 對應的頻道ID
         channel_info = yt.get_channel_info(Globals.id)
 
         Globals.selected_id = yt.get_id(channel_info)  # 選取頻道的名字
@@ -65,7 +69,7 @@ class singleFrame(Frame):  # 繼承Frame類
         htmlFile = yt.getHtmlFile(Globals.id)
         yt.getBanner(htmlFile)
 
-        return Globals.id
+        return  Globals.id
 
     def close_window(self):
         self.root.destroy()
@@ -111,10 +115,14 @@ class pluralFrame(Frame):  # 繼承Frame類
     def firstresultadd(self):
         Globals.gurabox1.delete(0, END)  # 每按一次搜尋清空listbox的資料
         channel_name_results = [
-            value for key, value in Globals.channels_dict.items()]  # 把字典的key取出來,這裡是頻道名稱
-        for name in channel_name_results:  # 取出頻道名稱列表的各個名字
-            Globals.gurabox1.insert(END, name)  # listbox放入資料(頻道名字)
-
+            value for key, value in Globals.channels_dict.items()]  # 把字典的value取出來,這裡是頻道名稱
+        channel_key_results = [
+            key for key, value in Globals.channels_dict.items()]  # 把字典的key取出來,這裡是頻道id
+       
+        # 為了把各個index 有其對應的頻道ID, 生成searched_dict[i] 作為區別listbox每個item的用法
+        for i in range(len(channel_name_results)):
+            Globals.gurabox1.insert(END, channel_name_results[i])
+            Globals.searched_dict[i] = channel_key_results[i]
 
 
     def close_window(self):

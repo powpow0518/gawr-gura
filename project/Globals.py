@@ -11,7 +11,8 @@ def initialize():
     # 儲存搜尋結果的dict name ->id
     global channels_dict
     channels_dict = {}
-
+    global searched_dict
+    searched_dict = {}
 
     global selected_name
     selected_name = None

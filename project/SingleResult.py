@@ -10,24 +10,30 @@ def showtheresult(selected_id, subscribes, desc):  # 怪怪的
     photo_forlder = "channels/"
 
     photo_name = selected_id
-    banner_img = Image.open(photo_forlder + photo_name + "_banner.jpg")
-    # banner_imgSize = banner_img.size  # 大小/尺寸
-    # w = banner_img.width       # 圖片寬
-    # h = banner_img.height      # 圖片高
-    # f = banner_img.format      # 圖片格式
-    banner_photo = ImageTk.PhotoImage(banner_img)
-
-    # print(banner_imgSize)
-    # print(w, h, f)
+    try:
+        banner_img = Image.open(photo_forlder + photo_name + "_banner.jpg")
+        # banner_imgSize = banner_img.size  # 大小/尺寸
+        # w = banner_img.width       # 圖片寬
+        # h = banner_img.height      # 圖片高
+        # f = banner_img.format      # 圖片格式
+        banner_photo = ImageTk.PhotoImage(banner_img)
+        # print(banner_imgSize)
+        # print(w, h, f)
+    except:
+        print("banner not found:")
+        banner_photo = None
 
     Label_banner = Label(root, image=banner_photo, borderwidth=3)
-
     Label_banner.grid(row=0, column=0, columnspan=2, sticky='NEW')
-
+    
     profile = Image.open(photo_forlder + photo_name + "_profile.jpg")
-    new_hw = int(banner_img.height * 1.1)
+    new_hw = int(176 * 1.1) # 176: banner_img.height 
+    
     prifile_resize = profile.resize((new_hw, new_hw),Image.ANTIALIAS)
     profile_photo = ImageTk.PhotoImage(prifile_resize)
+
+        
+
 
     Label_profile = Label(root,
                           anchor='sw',
