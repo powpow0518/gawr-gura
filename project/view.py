@@ -68,7 +68,6 @@ class singleFrame(Frame):  # 繼承Frame類
 
     def close_window(self):
         self.root.destroy()
-
 # 多個搜尋（先完成單個）
 # 頻道名稱，訂閱數，總觀看量，上傳影片數量，會員數量（？），donate總金額（？）
 
