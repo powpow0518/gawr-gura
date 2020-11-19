@@ -48,19 +48,21 @@ class singleFrame(Frame):  # 繼承Frame類
             value for key, value in Globals.channels_dict.items()]  # 把字典的value取出來,這裡是頻道名稱
         channel_key_results = [
             key for key, value in Globals.channels_dict.items()]  # 把字典的key取出來,這裡是頻道id
-       
+
         # 為了把各個index 有其對應的頻道ID, 生成searched_dict[i] 作為區別listbox每個item的用法
         for i in range(len(channel_name_results)):
             Globals.listbox.insert(END, channel_name_results[i])
             Globals.searched_dict[i] = channel_key_results[i]
 
-
     def choose(self):  # 點選後需要做的事情, 取得所有資料
-        indexs = Globals.listbox.curselection()  # listbox點選item後,得到該item的index, 回傳世tuple
-        name = Globals.listbox.get(indexs) # listbox.get(indexs) 會得到listbox在特定index 顯示的名稱(這裡是頻道名稱)
-        selected_index = indexs[0] # 得到index選取的index值
-        
-        Globals.id = Globals.searched_dict[selected_index] # 去search_dict 找出 index 對應的頻道ID
+        # listbox點選item後,得到該item的index, 回傳世tuple
+        indexs = Globals.listbox.curselection()
+        # listbox.get(indexs) 會得到listbox在特定index 顯示的名稱(這裡是頻道名稱)
+        name = Globals.listbox.get(indexs)
+        selected_index = indexs[0]  # 得到index選取的index值
+
+        # 去search_dict 找出 index 對應的頻道ID
+        Globals.id = Globals.searched_dict[selected_index]
         channel_info = yt.get_channel_info(Globals.id)
 
         Globals.selected_id = yt.get_id(channel_info)  # 選取頻道的名字
@@ -71,7 +73,7 @@ class singleFrame(Frame):  # 繼承Frame類
         htmlFile = yt.getHtmlFile(Globals.id)
         yt.getBanner(htmlFile)
 
-        return  Globals.id
+        return Globals.id
 
     def close_window(self):
         self.root.destroy()
@@ -128,7 +130,7 @@ class pluralFrame(Frame):  # 繼承Frame類
             value for key, value in Globals.channels_dict.items()]  # 把字典的value取出來,這裡是頻道名稱
         channel_key_results = [
             key for key, value in Globals.channels_dict.items()]  # 把字典的key取出來,這裡是頻道id
-       
+
         # 為了把各個index 有其對應的頻道ID, 生成searched_dict[i] 作為區別listbox每個item的用法
         for i in range(len(channel_name_results)):
             Globals.gurabox1.insert(END, channel_name_results[i])

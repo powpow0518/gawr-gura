@@ -22,9 +22,10 @@ def get_channel_ID(key_word):
     q = key_word
     search_type = 'channel'  # 設定搜尋的東西是頻道
     key = api_key
-    
-    url = api + "?part=" + part + "&maxResults=" + maxResults + "&q=" + key_word + "&type=" + search_type + "&key=" + key
-        
+
+    url = api + "?part=" + part + "&maxResults=" + maxResults + \
+        "&q=" + key_word + "&type=" + search_type + "&key=" + key
+
     ID = requests.get(url)
     ID_json = ID.json()
 
@@ -104,9 +105,9 @@ def get_profile_pic(info_json):
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64)\
                 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101\
                 Safari/537.36', }
-    
-    #開始抓圖片  
-    
+
+    # 開始抓圖片
+
     url = profile_pic[0]
 
     try:
@@ -185,10 +186,11 @@ def getHtmlFile(channel_ID):
 def getBanner(htmlFile):
     YOUTUBE_HEADER_IMAGE_START_URL = "yt3.ggpht.com/"
     YOUTUBE_HEADER_IMAGE_END_URL = "-no-nd-rj"
-    # 使用正規表達式 
-    regex = re.compile(YOUTUBE_HEADER_IMAGE_START_URL + "(.*?)" + YOUTUBE_HEADER_IMAGE_END_URL)
-    urllist= regex.findall(htmlFile)
-    #urlist回傳的是一個含有16個value的串列
+    # 使用正規表達式
+    regex = re.compile(YOUTUBE_HEADER_IMAGE_START_URL +
+                       "(.*?)" + YOUTUBE_HEADER_IMAGE_END_URL)
+    urllist = regex.findall(htmlFile)
+    # urlist回傳的是一個含有16個value的串列
     # index 0 => 我不要的東西
     # 1 - 15的照片大小分別為
     # 1: 1138 x 188   2: 1707 x 282    3: 2120 x 350
@@ -197,10 +199,11 @@ def getBanner(htmlFile):
     # 10:2120 x 1192  11:320 x 52     12: 640 x 105
     # 13:960 x 158    14:1280 x 211   15: 1440 x 238
     try:
-        url = "https://" +YOUTUBE_HEADER_IMAGE_START_URL + urllist[12] + YOUTUBE_HEADER_IMAGE_END_URL
+        url = "https://" + YOUTUBE_HEADER_IMAGE_START_URL + \
+            urllist[12] + YOUTUBE_HEADER_IMAGE_END_URL
     except:
         print("this channel no banners")
-    #下載圖片
+    # 下載圖片
     folder = 'channels'
     if os.path.exists(folder) == False:
         os.mkdir(folder)

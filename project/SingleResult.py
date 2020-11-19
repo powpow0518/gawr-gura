@@ -26,15 +26,12 @@ def showtheresult(selected_id, subscribes, desc):
 
     Label_banner = Label(root, image=banner_photo, borderwidth=3)
     Label_banner.grid(row=0, column=0, columnspan=2, sticky='NEW')
-    
+
     profile = Image.open(photo_forlder + photo_name + "_profile.jpg")
-    new_hw = int(176 * 1.1) # 176: banner_img.height 
-    
-    prifile_resize = profile.resize((new_hw, new_hw),Image.ANTIALIAS)
+    new_hw = int(176 * 1.1)  # 176: banner_img.height
+
+    prifile_resize = profile.resize((new_hw, new_hw), Image.ANTIALIAS)
     profile_photo = ImageTk.PhotoImage(prifile_resize)
-
-        
-
 
     Label_profile = Label(root,
                           anchor='sw',

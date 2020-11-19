@@ -26,7 +26,7 @@ def pluralresult(guralistsize):
                 row=0, column=0, rowspan=2, columnspan=2,)
 
         elif (int(guralistsize) == 2):
-            
+
             channel_img = Image.open('gura.jpg')
             channel_photo0 = ImageTk.PhotoImage(channel_img)
             Label(root, image=channel_photo0,).grid(
@@ -38,7 +38,7 @@ def pluralresult(guralistsize):
                 row=2, column=0, rowspan=2, columnspan=2,)
 
         elif (int(guralistsize) == 3):
-            
+
             channel_img = Image.open('gura.jpg')
             channel_photo0 = ImageTk.PhotoImage(channel_img)
             Label(root, image=channel_photo0,).grid(
@@ -55,7 +55,7 @@ def pluralresult(guralistsize):
                 row=4, column=0, rowspan=2, columnspan=2,)
 
         elif (int(guralistsize) == 4):
-            
+
             channel_img = Image.open('gura.jpg')
             channel_photo0 = ImageTk.PhotoImage(channel_img)
             Label(root, image=channel_photo0,).grid(
@@ -77,7 +77,7 @@ def pluralresult(guralistsize):
                 row=6, column=0, rowspan=2, columnspan=2,)
 
         elif (int(guralistsize) == 5):
-            
+
             channel_img = Image.open('gura.jpg')
             channel_photo0 = ImageTk.PhotoImage(channel_img)
             Label(root, image=channel_photo0,).grid(
@@ -104,7 +104,7 @@ def pluralresult(guralistsize):
                 row=8, column=0, rowspan=2, columnspan=2,)
 
         elif (int(guralistsize) == 6):
-            
+
             channel_img = Image.open('gura.jpg')
             channel_photo0 = ImageTk.PhotoImage(channel_img)
             Label(root, image=channel_photo0,).grid(
@@ -136,7 +136,7 @@ def pluralresult(guralistsize):
                 row=10, column=0, rowspan=2, columnspan=2,)
 
         elif (int(guralistsize) == 7):
-            
+
             channel_img = Image.open('gura.jpg')
             channel_photo0 = ImageTk.PhotoImage(channel_img)
             Label(root, image=channel_photo0,).grid(
@@ -173,7 +173,7 @@ def pluralresult(guralistsize):
                 row=12, column=0, rowspan=2, columnspan=2,)
 
         else:
-            
+
             channel_img = Image.open('gura.jpg')
             channel_photo0 = ImageTk.PhotoImage(channel_img)
             Label(root, image=channel_photo0,).grid(
@@ -213,7 +213,6 @@ def pluralresult(guralistsize):
             channel_photo7 = ImageTk.PhotoImage(channel_img)
             Label(root, image=channel_photo7,).grid(
                 row=14, column=0, rowspan=2, columnspan=2,)
-
 
     root.resizable(width=0, height=0)  # 固定視窗
     root.mainloop()
