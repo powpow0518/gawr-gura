@@ -61,7 +61,7 @@ def showtheresult(selected_id, subscribes, desc):
     text_area.insert(INSERT, desc)
 
     Button(root, text='確認', command=lambda: (
-        root.destroy())).grid(row=5, columnspan=2)
+        root.destroy())).grid(row=5, columnspan=2, pady=10)
 
     root.resizable(width=0, height=0)
     root.mainloop()

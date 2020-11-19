@@ -9,7 +9,6 @@ def pluralresult(guralistsize):
     root = Tk()
     root.config(bg="white")
     # 以下為暴力寫法
-
     if (int(guralistsize) == 0):  # 無選擇時，看情形更改版面
         root.geometry('%dx%d' % (300, 200))  # 設定視窗大小
 
