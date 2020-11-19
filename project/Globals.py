@@ -25,3 +25,9 @@ def initialize():
     gurabox1 = None
     global gurabox2
     gurabox2 = None
+    global guralabel
+    guralabel = None
+
+    # 容納數量
+    global gurabox2size
+    gurabox2size = 8
