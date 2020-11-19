@@ -14,8 +14,8 @@ class MainPage(object):
         self.queryPage = pluralFrame(self.root)
         self.inputPage.pack()  # 預設顯示資料錄入介面
         menubar = Menu(self.root)
-        menubar.add_command(label='頻道', command=self.inputData)
-        menubar.add_command(label='影片', command=self.queryData)
+        menubar.add_command(label='詳細頻道資料', command=self.inputData)
+        menubar.add_command(label='多重頻道搜尋', command=self.queryData)
         self.root['menu'] = menubar  # 設定選單欄
 
     def inputData(self):
