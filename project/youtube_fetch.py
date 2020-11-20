@@ -22,10 +22,9 @@ def get_channel_ID(key_word):
     q = key_word
     search_type = 'channel'  # 設定搜尋的東西是頻道
     key = api_key
-
-    url = api + "?part=" + part + "&maxResults=" + maxResults + \
-        "&q=" + key_word + "&type=" + search_type + "&key=" + key
-
+    
+    url = api + "?part=" + part + "&maxResults=" + maxResults + "&q=" + key_word + "&type=" + search_type + "&key=" + key
+    print(url)
     ID = requests.get(url)
     ID_json = ID.json()
 
