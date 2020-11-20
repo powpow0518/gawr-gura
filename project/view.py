@@ -114,9 +114,13 @@ class pluralFrame(Frame):  # 繼承Frame類
         Globals.guralabel.grid(row=4, column=2, pady=10)
         Globals.guralabel.config(
             text=str(Globals.gurabox2size-Globals.gurabox2.size()))
-
-        Button(self, text='確認', command=lambda: (self.close_window(), pluralresult(int(Globals.gurabox2.size())))).grid(
+        # 需要改之地方
+        Button(self, text='確認', command=lambda: (self.close_window(), pluralresult())).grid(
             row=5, column=3, pady=10, columnspan=2)
+
+        # Button(self, text='確認', command=lambda: (self.close_window(), pluralresult(int(Globals.gurabox2.size())))).grid(
+        #     row=5, column=3, pady=10, columnspan=2)
+        # int(Globals.gurabox2.size())是右下方塊內擁有頻道之數量
 
     def confirmthischannel(self):  # 第一階段搜尋
         Globals.channels_dict = {}
