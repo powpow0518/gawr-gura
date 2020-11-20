@@ -6,16 +6,18 @@ from tkinter.ttk import *
 # 排序
 
 
-def heading1sort(col):
-    global reverseFlag
-    lst = [(tree.set(st, col), st)
-           for st in tree.get_children("")]
-    print(lst)
-    lst.sort(reverse=reverseFlag)
-    print(lst)
-    for index, item in enumerate(lst):
-        tree.move(item[1], '', index)
-    reverseFlag = not reverseFlag
+def heading1sort(tv, col, reverse):
+    lst = [(tv.set(k, col), k)
+           for k in tv.get_children("")]
+    # print(lst)
+    lst.sort(key=lambda t: int(t[0]), reverse=reverse)
+    # print(lst)
+    for index, (val, k) in enumerate(lst):
+        tv.move(k, '', index)
+
+    tv.heading(col,
+               command=lambda: heading1sort(tv, col, not reverse))
+
 
 
 root = Tk()
@@ -28,7 +30,8 @@ scro.pack(side=RIGHT, fill=Y)
 # 定義欄位高度
 Style().configure('Treeview', rowheight=100)
 # 建立treeview
-tree = Treeview(root, columns=('name', 'subs', 'videos', 'viewers'))
+columns=('name', 'subs', 'videos', 'viewers')
+tree = Treeview(root, columns=columns, )
 # 建立標題欄
 tree.heading('#0', text='頻道頭像')
 tree.heading('#1', text='頻道名稱')
@@ -59,12 +62,15 @@ img_4 = ImageTk.PhotoImage(img1)
 tree.insert('', index=END, image=img_4,
             values=('gura', '8310000', '4000', '2000000000000'))
 # 建立視窗
-tree.pack(side=TOP)
+tree.pack()
 # 滾動結合
 scro.config(command=tree.yview)
 tree.configure(yscrollcommand=scro.set)
 # 排序結合
-tree.heading('#3', text='上傳影片數量', command=lambda c='上傳影片數量': heading1sort(c))
+# tree.heading('#3', text='上傳影片數量', command=lambda c='上傳影片數量': heading1sort(c))
+for col in columns:
+    tree.heading(col, text=col,
+                     command=lambda c=col: heading1sort(tree, c, False))
 # 固定視窗
 root.resizable(width=0, height=0)
 root.mainloop()
