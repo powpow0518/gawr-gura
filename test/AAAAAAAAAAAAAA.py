@@ -19,7 +19,6 @@ def heading1sort(tv, col, reverse):
                command=lambda: heading1sort(tv, col, not reverse))
 
 
-
 root = Tk()
 root.config(bg="white")
 # 設定視窗大小
@@ -30,7 +29,7 @@ scro.pack(side=RIGHT, fill=Y)
 # 定義欄位高度
 Style().configure('Treeview', rowheight=100)
 # 建立treeview
-columns=('name', 'subs', 'videos', 'viewers')
+columns = ('name', 'subs', 'videos', 'viewers')
 tree = Treeview(root, columns=columns, )
 # 建立標題欄
 tree.heading('#0', text='頻道頭像')
@@ -67,14 +66,9 @@ tree.pack()
 scro.config(command=tree.yview)
 tree.configure(yscrollcommand=scro.set)
 # 排序結合
-# tree.heading('#3', text='上傳影片數量', command=lambda c='上傳影片數量': heading1sort(c))
 for col in columns:
     tree.heading(col, text=col,
-                     command=lambda c=col: heading1sort(tree, c, False))
+                 command=lambda c=col: heading1sort(tree, c, False))
 # 固定視窗
 root.resizable(width=0, height=0)
 root.mainloop()
-
-'''
-排序會噴錯，明天在debug
-'''
