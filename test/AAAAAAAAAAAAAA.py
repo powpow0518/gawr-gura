@@ -52,11 +52,11 @@ tree.insert('', index=END, image=img_1,
 img1 = Image.open('gura.jpg')
 img_2 = ImageTk.PhotoImage(img1)
 tree.insert('', index=END, image=img_2,
-            values=('gura', '1380000', '2000', '4000000000000'))
+            values=('Aura', '1380000', '2000', '4000000000000'))
 img1 = Image.open('gura.jpg')
 img_3 = ImageTk.PhotoImage(img1)
 tree.insert('', index=END, image=img_3,
-            values=('gura', '1830000', '3000', '3000000000000'))
+            values=('Lura', '1830000', '3000', '3000000000000'))
 img1 = Image.open('gura.jpg')
 img_4 = ImageTk.PhotoImage(img1)
 tree.insert('', index=END, image=img_4,

@@ -1,221 +1,75 @@
 from tkinter import *
 from PIL import ImageTk, Image
-import Globals
 from tkinter.scrolledtext import ScrolledText
+from tkinter.ttk import *
+
+# 排序
+# def請勿更改，不會修
 
 
-def pluralresult(guralistsize):
+def heading1sort(tv, col, reverse):
+    lst = [(tv.set(k, col), k)
+           for k in tv.get_children("")]
+    # print(lst)
+    lst.sort(key=lambda t: t[0], reverse=reverse)
+    # print(lst)
+    for index, (val, k) in enumerate(lst):
+        tv.move(k, '', index)
 
-    root = Tk()
-    root.config(bg="white")
-    # 以下為暴力寫法
-    if (int(guralistsize) == 0):  # 無選擇時，看情形更改版面
-        root.geometry('%dx%d' % (300, 200))  # 設定視窗大小
-
-        Label(root, text='列表數量為 0', font=("Times New Roman", 20), height=3, width=20, justify='center').grid(
-            row=0)
-        Button(root, text='確認', command=lambda: (
-            root.destroy())).grid(row=4)
-    else:
-
-        if (int(guralistsize) == 1):
-            root.geometry('%dx%d' % (500, 600))  # 設定視窗大小
-            channel_img = Image.open('gura.jpg')
-            channel_photo0 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo0,).grid(
-                row=0, column=0, rowspan=2, columnspan=2,)
-
-        elif (int(guralistsize) == 2):
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo0 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo0,).grid(
-                row=0, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo1 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo1,).grid(
-                row=2, column=0, rowspan=2, columnspan=2,)
-
-        elif (int(guralistsize) == 3):
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo0 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo0,).grid(
-                row=0, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo1 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo1,).grid(
-                row=2, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo2 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo2,).grid(
-                row=4, column=0, rowspan=2, columnspan=2,)
-
-        elif (int(guralistsize) == 4):
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo0 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo0,).grid(
-                row=0, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo1 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo1,).grid(
-                row=2, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo2 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo2,).grid(
-                row=4, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo3 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo3,).grid(
-                row=6, column=0, rowspan=2, columnspan=2,)
-
-        elif (int(guralistsize) == 5):
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo0 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo0,).grid(
-                row=0, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo1 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo1,).grid(
-                row=2, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo2 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo2,).grid(
-                row=4, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo3 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo3,).grid(
-                row=6, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo4 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo4,).grid(
-                row=8, column=0, rowspan=2, columnspan=2,)
-
-        elif (int(guralistsize) == 6):
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo0 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo0,).grid(
-                row=0, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo1 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo1,).grid(
-                row=2, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo2 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo2,).grid(
-                row=4, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo3 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo3,).grid(
-                row=6, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo4 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo4,).grid(
-                row=8, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo5 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo5,).grid(
-                row=10, column=0, rowspan=2, columnspan=2,)
-
-        elif (int(guralistsize) == 7):
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo0 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo0,).grid(
-                row=0, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo1 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo1,).grid(
-                row=2, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo2 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo2,).grid(
-                row=4, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo3 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo3,).grid(
-                row=6, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo4 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo4,).grid(
-                row=8, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo5 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo5,).grid(
-                row=10, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo6 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo6,).grid(
-                row=12, column=0, rowspan=2, columnspan=2,)
-
-        else:
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo0 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo0,).grid(
-                row=0, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo1 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo1,).grid(
-                row=2, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo2 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo2,).grid(
-                row=4, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo3 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo3,).grid(
-                row=6, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo4 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo4,).grid(
-                row=8, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo5 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo5,).grid(
-                row=10, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo6 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo6,).grid(
-                row=12, column=0, rowspan=2, columnspan=2,)
-
-            channel_img = Image.open('gura.jpg')
-            channel_photo7 = ImageTk.PhotoImage(channel_img)
-            Label(root, image=channel_photo7,).grid(
-                row=14, column=0, rowspan=2, columnspan=2,)
-
-    root.resizable(width=0, height=0)  # 固定視窗
-    root.mainloop()
+    tv.heading(col,
+               command=lambda: heading1sort(tv, col, not reverse))
 
 
-pluralresult(7)
+root = Tk()
+root.config(bg="gray")
+# 設定視窗大小
+root.geometry('%dx%d' % (800, 330))
+# 定義卷軸位置
+scro = Scrollbar(root)
+scro.pack(side=RIGHT, fill=Y)
+# 定義欄位高度
+Style().configure('Treeview', rowheight=100)
+# 建立treeview
+columns = ('name', 'subs', 'videos', 'viewers')
+tree = Treeview(root, columns=columns, )
+# 建立標題欄
+tree.heading('#0', text='頻道頭像')
+tree.heading('#1', text='頻道名稱')
+tree.heading('#2', text='頻道訂閱數量')
+tree.heading('#3', text='上傳影片數量')
+tree.heading('#4', text='總觀看數量')
+# 格式化欄位
+tree.column('#0', anchor=CENTER, width=150)
+tree.column('#1', anchor=CENTER, width=150)
+tree.column('#2', anchor=CENTER, width=150)
+tree.column('#3', anchor=CENTER, width=100)
+tree.column('#4', anchor=CENTER, width=150)
+# 建立內容
+img1 = Image.open('gura.jpg')
+img_1 = ImageTk.PhotoImage(img1)
+tree.insert('', index=END, image=img_1,
+            values=('gura', '3180000', '1000', '5000000000000'))
+img1 = Image.open('gura.jpg')
+img_2 = ImageTk.PhotoImage(img1)
+tree.insert('', index=END, image=img_2,
+            values=('Aura', '1380000', '2000', '4000000000000'))
+img1 = Image.open('gura.jpg')
+img_3 = ImageTk.PhotoImage(img1)
+tree.insert('', index=END, image=img_3,
+            values=('Lura', '1830000', '3000', '3000000000000'))
+img1 = Image.open('gura.jpg')
+img_4 = ImageTk.PhotoImage(img1)
+tree.insert('', index=END, image=img_4,
+            values=('gura', '8310000', '4000', '2000000000000'))
+# 建立視窗
+tree.pack()
+# 滾動結合
+scro.config(command=tree.yview)
+tree.configure(yscrollcommand=scro.set)
+# 排序結合
+for col in columns:
+    tree.heading(col, text=col,
+                 command=lambda c=col: heading1sort(tree, c, False))
+# 固定視窗
+root.resizable(width=0, height=0)
+root.mainloop()
