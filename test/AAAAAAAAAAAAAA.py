@@ -4,7 +4,7 @@ from tkinter.scrolledtext import ScrolledText
 from tkinter.ttk import *
 
 # 排序
-
+#請勿更改，不會修
 
 def heading1sort(tv, col, reverse):
     lst = [(tv.set(k, col), k)
@@ -20,7 +20,7 @@ def heading1sort(tv, col, reverse):
 
 
 root = Tk()
-root.config(bg="white")
+root.config(bg="gray")
 # 設定視窗大小
 root.geometry('%dx%d' % (800, 330))
 # 定義卷軸位置
