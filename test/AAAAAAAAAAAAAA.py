@@ -4,7 +4,8 @@ from tkinter.scrolledtext import ScrolledText
 from tkinter.ttk import *
 
 # 排序
-#請勿更改，不會修
+# def請勿更改，不會修
+
 
 def heading1sort(tv, col, reverse):
     lst = [(tv.set(k, col), k)
