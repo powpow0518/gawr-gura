@@ -10,7 +10,7 @@ def heading1sort(tv, col, reverse):
     lst = [(tv.set(k, col), k)
            for k in tv.get_children("")]
     # print(lst)
-    lst.sort(key=lambda t: int(t[0]), reverse=reverse)
+    lst.sort(key=lambda t: t[0], reverse=reverse)
     # print(lst)
     for index, (val, k) in enumerate(lst):
         tv.move(k, '', index)
