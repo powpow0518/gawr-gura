@@ -5,7 +5,6 @@ from tkinter.ttk import *
 import Globals
 
 # 排序
-# def請勿更改，不會修
 
 
 def heading1sort(tv, col, reverse):
@@ -57,12 +56,12 @@ def pluralresult():
         profile = Image.open(photo_forlder + photo_name + "_profile.jpg")
 
         # 字串轉變數
-        profile_photo = ImageTk.PhotoImage(profile) 
+        profile_photo = ImageTk.PhotoImage(profile)
         # 把圖片加到list
-        img_list.append(profile_photo) 
+        img_list.append(profile_photo)
 
         tree.insert('', index=END, image=img_list[-1],
-                values=(channel['name'], channel['subs'], channel['video'], channel['view'])) # 顯示list 最新一張圖片
+                    values=(channel['name'], channel['subs'], channel['video'], channel['view']))  # 顯示list 最新一張圖片
 
     # 建立視窗
     tree.pack()
@@ -71,8 +70,8 @@ def pluralresult():
     tree.configure(yscrollcommand=scro.set)
     # 排序結合
     for col in columns:
-       tree.heading(col, text=col,
-                    command=lambda c=col: heading1sort(tree, c, False))
+        tree.heading(col, text=col,
+                     command=lambda c=col: heading1sort(tree, c, False))
     # 固定視窗
     root.resizable(width=0, height=0)
     root.mainloop()

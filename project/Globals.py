@@ -8,7 +8,7 @@ def initialize():
     global name_list
     name_list = []
 
-    # 儲存搜尋結果的dict id:name 
+    # 儲存搜尋結果的dict id:name
     global channels_dict
     channels_dict = {}
 
@@ -42,7 +42,7 @@ def initialize():
 
     global plural_searched_list
     plural_searched_list = []
-    
+
     global plural_searcd_code
 
     plural_searcd_code = 0

@@ -22,8 +22,9 @@ def get_channel_ID(key_word):
     q = key_word
     search_type = 'channel'  # 設定搜尋的東西是頻道
     key = api_key
-    
-    url = api + "?part=" + part + "&maxResults=" + maxResults + "&q=" + key_word + "&type=" + search_type + "&key=" + key
+
+    url = api + "?part=" + part + "&maxResults=" + maxResults + \
+        "&q=" + key_word + "&type=" + search_type + "&key=" + key
     ID = requests.get(url)
     ID_json = ID.json()
 
@@ -85,7 +86,7 @@ def get_published_time(info_json):
 # 取得頻道個人圖片
 
 
-def get_profile_pic(info_json, size): # size: default, medium,high
+def get_profile_pic(info_json, size):  # size: default, medium,high
     # 得到數據
     # default, medium & high #頻道主圖
     profile_pic_raw = info_json['items'][0]['snippet']['thumbnails'][size]
@@ -138,7 +139,7 @@ def get_viewCount(info_json):
 def get_subscriberCount(info_json):
     # 訂閱數
 
-    if info_json['items'][0]['statistics']['hiddenSubscriberCount']  == True:
+    if info_json['items'][0]['statistics']['hiddenSubscriberCount'] == True:
         channel_subscriberCount = 'Hide'
     else:
         channel_subscriberCount = info_json['items'][0]['statistics']['subscriberCount']
@@ -230,7 +231,8 @@ def getBanner(htmlFile):
             picture = requests.get(url, headers=headers)  # 下載圖片
             picture.raise_for_status()                  # 驗證圖片是否下載成功
             # 先開啟檔案, 再儲存圖片
-            pictFile = open(os.path.join(folder, banner_id + '_banner.jpg'), 'wb')
+            pictFile = open(os.path.join(
+                folder, banner_id + '_banner.jpg'), 'wb')
 
             for diskStorage in picture.iter_content(10240):
                 pictFile.write(diskStorage)
@@ -240,6 +242,7 @@ def getBanner(htmlFile):
         except Exception as err:
             print(err)
             return "connect failed"
+
 
 def get_all_for_single(channel_id):
     channel_info = get_channel_info(channel_id)
@@ -263,12 +266,12 @@ def get_all_for_plural(channel_id):
 
     return channel_id, subs, view_count, video_count
 
+
 def add_comma(number_str):
     numbers = int(number_str)
-    numbers_ok = format(numbers,",")
+    numbers_ok = format(numbers, ",")
 
     return str(numbers_ok)
-
 
 
 '''
