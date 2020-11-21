@@ -8,16 +8,28 @@ import Globals
 
 
 def heading1sort(tv, col, reverse):
-    lst = [(tv.set(k, col), k)
-           for k in tv.get_children("")]
-    # print(lst)
-    lst.sort(key=lambda t: t[0], reverse=reverse)
-    # print(lst)
-    for index, (val, k) in enumerate(lst):
-        tv.move(k, '', index)
+    if 'videos' in col or 'viewers' in col or 'subs' in col:
+        lst = [(tv.set(k, col), k)
+               for k in tv.get_children("")]
+        # print(lst)
+        lst.sort(key=lambda t: int(t[0]), reverse=reverse)
+        # print(lst)
+        for index, (val, k) in enumerate(lst):
+            tv.move(k, '', index)
 
-    tv.heading(col,
-               command=lambda: heading1sort(tv, col, not reverse))
+        tv.heading(col,
+                   command=lambda: heading1sort(tv, col, not reverse))
+    else:
+        lst = [(tv.set(k, col), k)
+               for k in tv.get_children("")]
+        # print(lst)
+        lst.sort(key=lambda t: t[0], reverse=reverse)
+        # print(lst)
+        for index, (val, k) in enumerate(lst):
+            tv.move(k, '', index)
+
+        tv.heading(col,
+                   command=lambda: heading1sort(tv, col, not reverse))
 
 
 def pluralresult():
