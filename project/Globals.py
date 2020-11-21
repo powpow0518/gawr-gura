@@ -39,3 +39,10 @@ def initialize():
 
     global plural_left_list_dict
     plural_left_list_dict = {}
+
+    global plural_searched_list
+    plural_searched_list = []
+    
+    global plural_searcd_code
+
+    plural_searcd_code = 0
