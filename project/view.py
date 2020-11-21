@@ -5,6 +5,7 @@ from SingleResult import *
 from PluralResult import *
 import Globals
 import youtube_fetch as yt
+import shutil
 
 
 # 單個搜尋
@@ -59,8 +60,9 @@ class singleFrame(Frame):  # 繼承Frame類
         indexs = Globals.listbox.curselection()
         # listbox.get(indexs) 會得到listbox在特定index 顯示的名稱(這裡是頻道名稱)
         name = Globals.listbox.get(indexs)
+        
+        
         selected_index = indexs[0]  # 得到index選取的index值
-
         # 去search_dict 找出 index 對應的頻道ID
         Globals.id = Globals.searched_dict[selected_index]
         
@@ -100,11 +102,11 @@ class pluralFrame(Frame):  # 繼承Frame類
         # 第二階段－左框格
         Globals.gurabox1 = Listbox(self, selectmode=SINGLE, width= 22)
         Globals.gurabox1.grid(row=4, column=0, columnspan=2, padx=3)
-        print("box1:", Globals.gurabox1.get(0,END))
+        #print("box1:", Globals.gurabox1.get(0,END))
         # 第二階段－右框格
         Globals.gurabox2 = Listbox(self, selectmode=SINGLE, width= 22)
         Globals.gurabox2.grid(row=4, column=3, columnspan=2, padx=3)
-        print("box2:", Globals.gurabox2.get(0,END))
+        #print("box2:", Globals.gurabox2.get(0,END))
         # 第二階段－中間數量
         Globals.guralabel = Label(self, )
         Globals.guralabel.grid(row=4, column=2, pady=10)
@@ -138,34 +140,82 @@ class pluralFrame(Frame):  # 繼承Frame類
             Globals.plural_left_list_dict[i] = channel_key_results[i]
 
     def add2thelist(self):
-        indexs = Globals.gurabox1.curselection()  # gurabox1點選item後,得到該item的index
+        indexes = Globals.gurabox1.curselection()  # gurabox1點選item後,得到該item的index
         #     return
         if (Globals.gurabox2.size() == Globals.gurabox2size):  # gurabox2容納數量
             return
         # print("box2:", Globals.gurabox2.get(0,END))
         # 取得頻道名稱後  1.放入box 2.下載資料 
-        name = Globals.gurabox1.get(indexs)
+        name = Globals.gurabox1.get(indexes)
         Globals.gurabox2.insert(END, name)  # gurabox2放入資料(頻道名字)
-        selected_index = indexs[0]  # 得到index選取的index值
+        selected_index = indexes[0]  # 得到index選取的index值
         
         # 去search_dict 找出 index 對應的頻道ID
         Globals.id = Globals.plural_left_list_dict[selected_index]
-        id_, subs, viewCoint, videoCount = yt.get_all_for_plural(Globals.id)
-        Globals.plural_searched_dict[Globals.id] = [id_, name, subs, videoCount, viewCoint]
-        print(Globals.plural_searched_dict)
+        id_, subs, viewCount, videoCount = yt.get_all_for_plural(Globals.id)
+        Globals.plural_searched_list.append({'id': id_, 'name':name, 'subs':subs, 'video': videoCount, 'view':viewCount, 'code':Globals.plural_searcd_code})
+        #print(Globals.plural_searched_list)   # 印出東西檢查用
+        Globals.plural_searcd_code += 1
         # 第一種存法, 下載完資料後全存到一個dict =>好處:按確認搜尋後不用等
         # 第二種存法, 先存成字典, 按確認時再一次存 => 應該不要
 
         Globals.guralabel.config(
             text=str(Globals.gurabox2size-Globals.gurabox2.size()))  # 即時更新中間剩餘數量
+    '''
+    刪除有點複雜Orz...
+    總之因為listbox 只會給我index 和 頻道名稱(不能用)
+    我只能靠index 去決定要刪什麼東西
+    然後很討厭的是我的listbox 每刪除一個頻道, index就會被重新洗牌
+    我的index 是很不固定的
+    所以想法是:
+    按移除之前, 我的頻道數會是固定的, 可以暫時先給他們編號, 作為index對應之用, 才知道每個index 對應到的是哪一筆資料
+    一旦開始移除後, index 被更新, 舊的編號就不能用, ex index 1 index 3 刪掉, 我的index 會變成 2,4 (假如只有1234)
+    所以每一次按移除後, 我去看listbox 剩的數量(這邊是2) 我就要把上面index 2,4 重新編成1,2 
+
+    '''
 
     def deletethelist(self):
-        index = Globals.gurabox2.curselection()  # gurabox1點選item後,得到該item的index
-        if (len(index) == 0):  # 判斷是否有選擇了
+        indexes = Globals.gurabox2.curselection()  # gurabox1點選item後,得到該item的index
+        # print(Globals.gurabox2.size())
+        if (len(indexes) == 0):  # 判斷是否有選擇了
             return
-        Globals.gurabox2.delete(index)
+
+        Globals.gurabox2.delete(indexes) #刪掉item
+        selected_index = indexes[0] #刪掉item的 index
+
+        #先暫時幫我的list給編號
+        searched_list_by_code = sorted(Globals.plural_searched_list, key=lambda x: x['code'])
+        #print("bf update:", searched_list_by_code)  #印出編號更新後
+        
+        #刪掉所選取的項目
+        for i in range(len(searched_list_by_code)):
+            if searched_list_by_code[i]['code'] == selected_index: # 我的編號只要跟index一樣 => 刪掉整個資訊(dict)
+                del searched_list_by_code[i]
+                break
+        
+        # 刪除後給新的編號   i 新的編號
+        for i in range(Globals.gurabox2.size()):
+            searched_list_by_code[i]['code'] = i
+
+        # print("af update:", searched_list_by_code) # 印出編號更新後
+        
+        # 因為移除東西了,所以要把搜尋的list 更新
+        Globals.plural_searched_list = searched_list_by_code
+
+        
         Globals.guralabel.config(
             text=str(Globals.gurabox2size-Globals.gurabox2.size()))  # 即時更新中間剩餘數量
 
     def close_window(self):
         self.root.destroy()
+
+
+        #刪除資料夾用的
+        # forlder = "channels"
+
+        # try:
+        #     shutil.rmtree(forlder)
+        # except OSError as e:
+        #     print(e)
+        # else:
+        #     print("Folder 'chaanels' is deleted successfully")

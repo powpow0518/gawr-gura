@@ -25,7 +25,7 @@ def pluralresult():
     root = Tk()
     root.config(bg="gray")
     # 設定視窗大小
-    root.geometry('%dx%d' % (800, 400))
+    root.geometry('%dx%d' % (800, 550))
     # 定義卷軸位置
     scro = Scrollbar(root)
     scro.pack(side=RIGHT, fill=Y)
@@ -50,38 +50,20 @@ def pluralresult():
 
     img_list = []
 
-    for channel in Globals.plural_searched_dict.values():
-        photo_name = channel[0]
+    for channel in Globals.plural_searched_list:
+        photo_name = channel['id']
         photo_forlder = "channels/"
 
         profile = Image.open(photo_forlder + photo_name + "_profile.jpg")
-        print('p_name:', photo_forlder + photo_name + "_profile.jpg")
-        # prifile_resize = profile.resize((180, 180), Image.ANTIALIAS)
+
         # 字串轉變數
         profile_photo = ImageTk.PhotoImage(profile) 
+        # 把圖片加到list
         img_list.append(profile_photo) 
 
         tree.insert('', index=END, image=img_list[-1],
-                values=(channel[1], channel[2], channel[3], channel[4]))
+                values=(channel['name'], channel['subs'], channel['video'], channel['view'])) # 顯示list 最新一張圖片
 
-
-
-    # img1 = Image.open('gura.jpg')
-    # img_1 = ImageTk.PhotoImage(img1)
-    # tree.insert('', index=END, image=img_1,
-    #             values=('gura', '3180000', '1000', '5000000000000'))
-    # img1 = Image.open('gura.jpg')
-    # img_2 = ImageTk.PhotoImage(img1)
-    # tree.insert('', index=END, image=img_2,
-    #            values=('Aura', '1380000', '2000', '4000000000000'))
-    # img1 = Image.open('gura.jpg')
-    # img_3 = ImageTk.PhotoImage(img1)
-    # tree.insert('', index=END, image=img_3,
-    #            values=('Lura', '1830000', '3000', '3000000000000'))
-    # img1 = Image.open('gura.jpg')
-    # img_4 = ImageTk.PhotoImage(img1)
-    # tree.insert('', index=END, image=img_4,
-    #         values=('gura', '8310000', '4000', '2000000000000'))
     # 建立視窗
     tree.pack()
     # 滾動結合

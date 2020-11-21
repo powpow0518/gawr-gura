@@ -11,7 +11,7 @@ import os
 import Globals
 
 global api_key
-api_key = 'AIzaSyDj9q0fVRPfVBS7KM6NygzF_q_gOoE9nGI'
+api_key = 'xxx'
 Globals.initialize()
 
 
@@ -24,7 +24,6 @@ def get_channel_ID(key_word):
     key = api_key
     
     url = api + "?part=" + part + "&maxResults=" + maxResults + "&q=" + key_word + "&type=" + search_type + "&key=" + key
-    print("cid:", url)
     ID = requests.get(url)
     ID_json = ID.json()
 
@@ -130,6 +129,7 @@ def get_profile_pic(info_json, size): # size: default, medium,high
 def get_viewCount(info_json):
     # 觀看總數
     channel_viewCount = info_json['items'][0]['statistics']['viewCount']
+    channel_viewCount = add_comma(channel_viewCount)
     return channel_viewCount
 
 # 取得頻道訂閱數
@@ -142,6 +142,7 @@ def get_subscriberCount(info_json):
         channel_subscriberCount = 'Hide'
     else:
         channel_subscriberCount = info_json['items'][0]['statistics']['subscriberCount']
+        channel_subscriberCount = add_comma(channel_subscriberCount)
     return channel_subscriberCount
 
 # 取得頻道影片總數
@@ -150,6 +151,7 @@ def get_subscriberCount(info_json):
 def get_videoCount(info_json):
     # 影片數
     channel_videoCount = info_json['items'][0]['statistics']['videoCount']
+    channel_videoCount = add_comma(channel_videoCount)
     return channel_videoCount
 
 # 取得頻道國家所在
@@ -206,6 +208,9 @@ def getBanner(htmlFile):
             urllist[12] + YOUTUBE_HEADER_IMAGE_END_URL
     except:
         print("this channel no banners")
+        flag = 0
+    else:
+        flag = 1
     # 下載圖片
     folder = 'channels'
     if os.path.exists(folder) == False:
@@ -216,22 +221,25 @@ def getBanner(htmlFile):
                 Safari/537.36', }
 
     # 開始抓圖片
+    if flag == 1:
+        pass
+    else:
 
-    try:
+        try:
 
-        picture = requests.get(url, headers=headers)  # 下載圖片
-        picture.raise_for_status()                  # 驗證圖片是否下載成功
-        # 先開啟檔案, 再儲存圖片
-        pictFile = open(os.path.join(folder, banner_id + '_banner.jpg'), 'wb')
+            picture = requests.get(url, headers=headers)  # 下載圖片
+            picture.raise_for_status()                  # 驗證圖片是否下載成功
+            # 先開啟檔案, 再儲存圖片
+            pictFile = open(os.path.join(folder, banner_id + '_banner.jpg'), 'wb')
 
-        for diskStorage in picture.iter_content(10240):
-            pictFile.write(diskStorage)
-        pictFile.close()
+            for diskStorage in picture.iter_content(10240):
+                pictFile.write(diskStorage)
+            pictFile.close()
 
-        return "connect successed"
-    except Exception as err:
-        print(err)
-        return "connect failed"
+            return "connect successed"
+        except Exception as err:
+            print(err)
+            return "connect failed"
 
 def get_all_for_single(channel_id):
     channel_info = get_channel_info(channel_id)
@@ -254,6 +262,13 @@ def get_all_for_plural(channel_id):
     getBanner(htmlFile)
 
     return channel_id, subs, view_count, video_count
+
+def add_comma(number_str):
+    numbers = int(number_str)
+    numbers_ok = format(numbers,",")
+
+    return str(numbers_ok)
+
 
 
 '''
