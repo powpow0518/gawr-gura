@@ -221,7 +221,7 @@ def getBanner(htmlFile):
                 Safari/537.36', }
 
     # 開始抓圖片
-    if flag == 1:
+    if flag == 0:
         pass
     else:
 
