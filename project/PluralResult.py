@@ -3,11 +3,27 @@ from PIL import ImageTk, Image
 from tkinter.scrolledtext import ScrolledText
 from tkinter.ttk import *
 import Globals
+from selenium import webdriver
 
-# 排序
+
+def doubleclick(event):
+    browser = webdriver.Chrome(executable_path="chromedriver.exe")
+    i = 0
+    e = event.widget
+    iid = e.identify('item', event.x, event.y)
+    name0 = e.item(iid, 'values')[0]
+    while True:
+        check = Globals.plural_searched_list[i]
+        if check['name'] == name0:
+            c_id = check['id']
+            url = 'https://www.youtube.com/channel/' + c_id
+            browser.get(url)
+            return root.destory()
+
+    # print(Globals.plural_searched_list)
 
 
-def heading1sort(tv, col, reverse):
+def heading1sort(tv, col, reverse):  # 排序
     if 'videos' in col or 'viewers' in col or 'subs' in col:
         lst = [(tv.set(k, col), k)
                for k in tv.get_children("")]
@@ -84,6 +100,8 @@ def pluralresult():
     for col in columns:
         tree.heading(col, text=col,
                      command=lambda c=col: heading1sort(tree, c, False))
+    # 點擊結合
+    tree.bind('<Double-1>', doubleclick)
     # 固定視窗
     root.resizable(width=0, height=0)
     root.mainloop()
