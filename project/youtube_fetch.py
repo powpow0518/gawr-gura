@@ -11,7 +11,7 @@ import os
 import Globals
 
 global api_key
-api_key = 'xxx'
+api_key = 'AIzaSyDj9q0fVRPfVBS7KM6NygzF_q_gOoE9nGI'
 Globals.initialize()
 
 
@@ -24,7 +24,7 @@ def get_channel_ID(key_word):
     key = api_key
     
     url = api + "?part=" + part + "&maxResults=" + maxResults + "&q=" + key_word + "&type=" + search_type + "&key=" + key
-    print(url)
+    print("cid:", url)
     ID = requests.get(url)
     ID_json = ID.json()
 
@@ -52,7 +52,7 @@ def get_channel_info(channel_id):
     url = api + "?part=" + part + "&id=" + id_ + "&key=" + key
     info = requests.get(url)
     info_json = info.json()
-    # print(url)
+
     return info_json
 
 # 參數: youtube api 回傳的 json 檔案
@@ -86,10 +86,10 @@ def get_published_time(info_json):
 # 取得頻道個人圖片
 
 
-def get_profile_pic(info_json):
+def get_profile_pic(info_json, size): # size: default, medium,high
     # 得到數據
     # default, medium & high #頻道主圖
-    profile_pic_raw = info_json['items'][0]['snippet']['thumbnails']['medium']
+    profile_pic_raw = info_json['items'][0]['snippet']['thumbnails'][size]
     # 清理一下數據
     pattern = "https://yt3.ggpht.com/" + "(.*?)" + "no-rj"
     profile_pic = re.search(pattern, str(profile_pic_raw))
@@ -137,7 +137,11 @@ def get_viewCount(info_json):
 
 def get_subscriberCount(info_json):
     # 訂閱數
-    channel_subscriberCount = info_json['items'][0]['statistics']['subscriberCount']
+
+    if info_json['items'][0]['statistics']['hiddenSubscriberCount']  == True:
+        channel_subscriberCount = 'Hide'
+    else:
+        channel_subscriberCount = info_json['items'][0]['statistics']['subscriberCount']
     return channel_subscriberCount
 
 # 取得頻道影片總數
@@ -228,6 +232,28 @@ def getBanner(htmlFile):
     except Exception as err:
         print(err)
         return "connect failed"
+
+def get_all_for_single(channel_id):
+    channel_info = get_channel_info(channel_id)
+    subs = get_subscriberCount(channel_info)  # 選取頻道的訂閱數
+    desc = get_description(channel_info)
+    get_profile_pic(channel_info, 'medium')
+    htmlFile = getHtmlFile(channel_id)
+    getBanner(htmlFile)
+
+    return channel_id, subs, desc
+
+
+def get_all_for_plural(channel_id):
+    channel_info = get_channel_info(channel_id)
+    subs = get_subscriberCount(channel_info)  # 選取頻道的訂閱數
+    view_count = get_viewCount(channel_info)
+    video_count = get_videoCount(channel_info)
+    get_profile_pic(channel_info, 'default')
+    htmlFile = getHtmlFile(channel_id)
+    getBanner(htmlFile)
+
+    return channel_id, subs, view_count, video_count
 
 
 '''

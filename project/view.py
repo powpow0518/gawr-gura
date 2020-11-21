@@ -22,21 +22,21 @@ class singleFrame(Frame):  # 繼承Frame類
         # Label(self, image=PhotoImage(file='work.gif'), ).grid(row=0,column=0)
         # 第一階段搜尋
         Label(self, text='頻道名稱：').grid(row=1, stick=W, pady=10)
-        Entry(self, textvariable=self.firstsearch).grid(
+        Entry(self, textvariable=self.firstsearch, width= 22).grid(
             row=1, column=1, stick=E)
         Button(self, text='搜尋', command=lambda: (self.
                                                  confirmthischannel(), self.firstresultadd())).grid(row=2, column=1, pady=10)
         # 第二階段選擇
         Label(self, text='選擇頻道：').grid(row=4, pady=10)
-        Globals.listbox = Listbox(self, selectmode=SINGLE)
+        Globals.listbox = Listbox(self, selectmode=SINGLE, width= 22)
 
         Globals.listbox.grid(row=4, column=1, columnspan=3, padx=5)
         Button(self, text='確認', command=lambda: (self.choose(), self.close_window(),
                                                  showtheresult(Globals.selected_id, Globals.selected_subs, Globals.selected_desc))).grid(row=6, column=1, pady=10)
 
     def confirmthischannel(self):  # 第一階段搜尋
-        Globals.channels_dict = {}
-        firstsearchresult = self.firstsearch.get()
+        Globals.channels_dict = {} #清空dict
+        firstsearchresult = self.firstsearch.get() # firstsearch result => 搜尋的關鍵字
         # 輸入關鍵字後搜尋, 結果們會存到Globals.channels_dict
         yt.get_channel_ID(firstsearchresult)
 
@@ -63,15 +63,9 @@ class singleFrame(Frame):  # 繼承Frame類
 
         # 去search_dict 找出 index 對應的頻道ID
         Globals.id = Globals.searched_dict[selected_index]
-        channel_info = yt.get_channel_info(Globals.id)
-
-        Globals.selected_id = yt.get_id(channel_info)  # 選取頻道的名字
-        Globals.selected_subs = yt.get_subscriberCount(
-            channel_info)  # 選取頻道的訂閱數
-        Globals.selected_desc = yt.get_description(channel_info)
-        yt.get_profile_pic(channel_info)
-        htmlFile = yt.getHtmlFile(Globals.id)
-        yt.getBanner(htmlFile)
+        
+        # 下載該下載的info
+        Globals.selected_id, Globals.selected_subs,  Globals.selected_desc = yt.get_all_for_single(Globals.id)
 
         return Globals.id
 
@@ -104,16 +98,19 @@ class pluralFrame(Frame):  # 繼承Frame類
         Button(self, text='移除頻道', command=lambda: (self.deletethelist())).grid(
             row=4, column=2, pady=10, stick=S)
         # 第二階段－左框格
-        Globals.gurabox1 = Listbox(self, selectmode=SINGLE)
+        Globals.gurabox1 = Listbox(self, selectmode=SINGLE, width= 22)
         Globals.gurabox1.grid(row=4, column=0, columnspan=2, padx=3)
+        print("box1:", Globals.gurabox1.get(0,END))
         # 第二階段－右框格
-        Globals.gurabox2 = Listbox(self, selectmode=SINGLE)
+        Globals.gurabox2 = Listbox(self, selectmode=SINGLE, width= 22)
         Globals.gurabox2.grid(row=4, column=3, columnspan=2, padx=3)
+        print("box2:", Globals.gurabox2.get(0,END))
         # 第二階段－中間數量
         Globals.guralabel = Label(self, )
         Globals.guralabel.grid(row=4, column=2, pady=10)
         Globals.guralabel.config(
             text=str(Globals.gurabox2size-Globals.gurabox2.size()))
+        
         # 需要改之地方
         Button(self, text='確認', command=lambda: (self.close_window(), pluralresult())).grid(
             row=5, column=3, pady=10, columnspan=2)
@@ -138,17 +135,27 @@ class pluralFrame(Frame):  # 繼承Frame類
         # 為了把各個index 有其對應的頻道ID, 生成searched_dict[i] 作為區別listbox每個item的用法
         for i in range(len(channel_name_results)):
             Globals.gurabox1.insert(END, channel_name_results[i])
-            Globals.searched_dict[i] = channel_key_results[i]
+            Globals.plural_left_list_dict[i] = channel_key_results[i]
 
     def add2thelist(self):
-        index = Globals.gurabox1.curselection()  # gurabox1點選item後,得到該item的index
-        # if (len(index) == 0):  # 判斷是否有選擇了
+        indexs = Globals.gurabox1.curselection()  # gurabox1點選item後,得到該item的index
         #     return
         if (Globals.gurabox2.size() == Globals.gurabox2size):  # gurabox2容納數量
             return
-        name = Globals.gurabox1.get(index)
-        # print(name)
+        # print("box2:", Globals.gurabox2.get(0,END))
+        # 取得頻道名稱後  1.放入box 2.下載資料 
+        name = Globals.gurabox1.get(indexs)
         Globals.gurabox2.insert(END, name)  # gurabox2放入資料(頻道名字)
+        selected_index = indexs[0]  # 得到index選取的index值
+        
+        # 去search_dict 找出 index 對應的頻道ID
+        Globals.id = Globals.plural_left_list_dict[selected_index]
+        id_, subs, viewCoint, videoCount = yt.get_all_for_plural(Globals.id)
+        Globals.plural_searched_dict[Globals.id] = [id_, name, subs, videoCount, viewCoint]
+        print(Globals.plural_searched_dict)
+        # 第一種存法, 下載完資料後全存到一個dict =>好處:按確認搜尋後不用等
+        # 第二種存法, 先存成字典, 按確認時再一次存 => 應該不要
+
         Globals.guralabel.config(
             text=str(Globals.gurabox2size-Globals.gurabox2.size()))  # 即時更新中間剩餘數量
 

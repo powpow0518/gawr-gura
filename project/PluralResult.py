@@ -2,6 +2,7 @@ from tkinter import *
 from PIL import ImageTk, Image
 from tkinter.scrolledtext import ScrolledText
 from tkinter.ttk import *
+import Globals
 
 # 排序
 # def請勿更改，不會修
@@ -24,7 +25,7 @@ def pluralresult():
     root = Tk()
     root.config(bg="gray")
     # 設定視窗大小
-    root.geometry('%dx%d' % (800, 330))
+    root.geometry('%dx%d' % (800, 400))
     # 定義卷軸位置
     scro = Scrollbar(root)
     scro.pack(side=RIGHT, fill=Y)
@@ -41,27 +42,46 @@ def pluralresult():
     tree.heading('#4', text='總觀看數量')
     # 格式化欄位
     tree.column('#0', anchor=CENTER, width=150)
-    tree.column('#1', anchor=CENTER, width=150)
+    tree.column('#1', anchor=CENTER, width=200)
     tree.column('#2', anchor=CENTER, width=150)
     tree.column('#3', anchor=CENTER, width=100)
     tree.column('#4', anchor=CENTER, width=150)
     # 建立內容
-    img1 = Image.open('gura.jpg')
-    img_1 = ImageTk.PhotoImage(img1)
-    tree.insert('', index=END, image=img_1,
-                values=('gura', '3180000', '1000', '5000000000000'))
-    img1 = Image.open('gura.jpg')
-    img_2 = ImageTk.PhotoImage(img1)
-    tree.insert('', index=END, image=img_2,
-               values=('Aura', '1380000', '2000', '4000000000000'))
-    img1 = Image.open('gura.jpg')
-    img_3 = ImageTk.PhotoImage(img1)
-    tree.insert('', index=END, image=img_3,
-               values=('Lura', '1830000', '3000', '3000000000000'))
-    img1 = Image.open('gura.jpg')
-    img_4 = ImageTk.PhotoImage(img1)
-    tree.insert('', index=END, image=img_4,
-            values=('gura', '8310000', '4000', '2000000000000'))
+
+    img_list = []
+
+    for channel in Globals.plural_searched_dict.values():
+        photo_name = channel[0]
+        photo_forlder = "channels/"
+
+        profile = Image.open(photo_forlder + photo_name + "_profile.jpg")
+        print('p_name:', photo_forlder + photo_name + "_profile.jpg")
+        # prifile_resize = profile.resize((180, 180), Image.ANTIALIAS)
+        # 字串轉變數
+        profile_photo = ImageTk.PhotoImage(profile) 
+        img_list.append(profile_photo) 
+
+        tree.insert('', index=END, image=img_list[-1],
+                values=(channel[1], channel[2], channel[3], channel[4]))
+
+
+
+    # img1 = Image.open('gura.jpg')
+    # img_1 = ImageTk.PhotoImage(img1)
+    # tree.insert('', index=END, image=img_1,
+    #             values=('gura', '3180000', '1000', '5000000000000'))
+    # img1 = Image.open('gura.jpg')
+    # img_2 = ImageTk.PhotoImage(img1)
+    # tree.insert('', index=END, image=img_2,
+    #            values=('Aura', '1380000', '2000', '4000000000000'))
+    # img1 = Image.open('gura.jpg')
+    # img_3 = ImageTk.PhotoImage(img1)
+    # tree.insert('', index=END, image=img_3,
+    #            values=('Lura', '1830000', '3000', '3000000000000'))
+    # img1 = Image.open('gura.jpg')
+    # img_4 = ImageTk.PhotoImage(img1)
+    # tree.insert('', index=END, image=img_4,
+    #         values=('gura', '8310000', '4000', '2000000000000'))
     # 建立視窗
     tree.pack()
     # 滾動結合
