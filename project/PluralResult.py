@@ -5,19 +5,20 @@ from tkinter.ttk import *
 import Globals
 # from selenium import webdriver
 import webbrowser
+
+
 def doubleclick(event):
     # browser = webdriver.Chrome(executable_path="chromedriver.exe")
     e = event.widget
-    iid = e.identify('item', event.x, event.y) # 得到雙擊項目的id
+    iid = e.identify('item', event.x, event.y)  # 得到雙擊項目的id
     name = e.item(iid, 'values')[0]      # 得到treeView 被設定為value的值 [0]的位置是 name
     subs = e.item(iid, 'values')[1]      # 得到treeView 被設定為value的值 [0]的位置是 subs
 
     for row in Globals.plural_searched_list:
-        if row['name'] == name and row['subs'] == subs:  #避免同名問題, 加上訂閱數去確認
+        if row['name'] == name and row['subs'] == subs:  # 避免同名問題, 加上訂閱數去確認
             c_id = row['id']
             url = 'https://www.youtube.com/channel/' + c_id
-            webbrowser.open_new(url) # 這個不知道為什麼設定潭不出新視窗, 等等看有沒有時間改
-
+            webbrowser.open_new(url)  # 這個不知道為什麼設定潭不出新視窗, 等等看有沒有時間改
 
 
 def heading1sort(tv, col, reverse):  # 排序
@@ -25,34 +26,24 @@ def heading1sort(tv, col, reverse):  # 排序
         # 寫得很醜不過先這樣吧 先清理數據再丟進去lst
         lst = []
         for k in tv.get_children(""):
-            print(tv.set(k, col))
+            # print(tv.set(k, col))
             # 把141,000的 , 清掉
             temp = tv.set(k, col).replace(',', '')
             # 轉成 int
             temp = int(temp)
             lst.append((temp, k))
-
-        lst.sort(key=lambda t: (t[0]), reverse=reverse)
-        print('LOL',lst)
-        # print(lst)
-        for index, (val, k) in enumerate(lst):
-            tv.move(k, '', index)
-
-        tv.heading(col,
-                   command=lambda: heading1sort(tv, col, not reverse))
     else:
         lst = [(tv.set(k, col), k)
                for k in tv.get_children("")]
-        # print(lst)
-        print('LOL',lst[0])
-        lst.sort(key=lambda t: t[0], reverse=reverse)
-        # print(lst)
-        print('LOL_2',lst[0])
-        for index, (val, k) in enumerate(lst):
-            tv.move(k, '', index)
 
-        tv.heading(col,
-                   command=lambda: heading1sort(tv, col, not reverse))
+    lst.sort(key=lambda t: (t[0]), reverse=reverse)
+    # print('LOL',lst)
+    # print(lst)
+    for index, (val, k) in enumerate(lst):
+        tv.move(k, '', index)
+
+    tv.heading(col,
+               command=lambda: heading1sort(tv, col, not reverse))
 
 
 def pluralresult():
