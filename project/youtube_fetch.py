@@ -130,7 +130,7 @@ def get_profile_pic(info_json, size):  # size: default, medium,high
 def get_viewCount(info_json):
     # 觀看總數
     channel_viewCount = info_json['items'][0]['statistics']['viewCount']
-    # channel_viewCount = add_comma(channel_viewCount)
+    channel_viewCount = add_comma(channel_viewCount)
     return channel_viewCount
 
 # 取得頻道訂閱數
@@ -143,7 +143,7 @@ def get_subscriberCount(info_json):
         channel_subscriberCount = 'Hide'
     else:
         channel_subscriberCount = info_json['items'][0]['statistics']['subscriberCount']
-        # channel_subscriberCount = add_comma(channel_subscriberCount)
+        channel_subscriberCount = add_comma(channel_subscriberCount)
     return channel_subscriberCount
 
 # 取得頻道影片總數
@@ -152,7 +152,7 @@ def get_subscriberCount(info_json):
 def get_videoCount(info_json):
     # 影片數
     channel_videoCount = info_json['items'][0]['statistics']['videoCount']
-    # channel_videoCount = add_comma(channel_videoCount)
+    channel_videoCount = add_comma(channel_videoCount)
     return channel_videoCount
 
 # 取得頻道國家所在
