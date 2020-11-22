@@ -3,24 +3,21 @@ from PIL import ImageTk, Image
 from tkinter.scrolledtext import ScrolledText
 from tkinter.ttk import *
 import Globals
-from selenium import webdriver
-
-
+# from selenium import webdriver
+import webbrowser
 def doubleclick(event):
-    browser = webdriver.Chrome(executable_path="chromedriver.exe")
-    i = 0
+    # browser = webdriver.Chrome(executable_path="chromedriver.exe")
     e = event.widget
-    iid = e.identify('item', event.x, event.y)
-    name0 = e.item(iid, 'values')[0]
-    while True:
-        check = Globals.plural_searched_list[i]
-        if check['name'] == name0:
-            c_id = check['id']
-            url = 'https://www.youtube.com/channel/' + c_id
-            browser.get(url)
-            return root.destory()
+    iid = e.identify('item', event.x, event.y) # 得到雙擊項目的id
+    name = e.item(iid, 'values')[0]      # 得到treeView 被設定為value的值 [0]的位置是 name
+    subs = e.item(iid, 'values')[1]      # 得到treeView 被設定為value的值 [0]的位置是 subs
 
-    # print(Globals.plural_searched_list)
+    for row in Globals.plural_searched_list:
+        if row['name'] == name and row['subs'] == subs:  #避免同名問題, 加上訂閱數去確認
+            c_id = row['id']
+            url = 'https://www.youtube.com/channel/' + c_id
+            webbrowser.open(url, 1) # 這個不知道為什麼設定潭不出新視窗, 等等看有沒有時間改
+
 
 
 def heading1sort(tv, col, reverse):  # 排序
